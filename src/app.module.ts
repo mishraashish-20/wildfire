@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostsModule } from './posts/posts.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { ModerationModule } from './moderation/moderation.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ModerationModule } from './moderation/moderation.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [
+        AuthModule,
         ConfigModule,
         PostsModule,
         BookmarksModule,

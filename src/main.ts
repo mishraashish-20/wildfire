@@ -17,7 +17,13 @@ async function bootstrap() {
     .setTitle('Wildfire API')
     .setDescription('Wildfire civic reporting backend')
     .setVersion('1.0.0')
-    .addBearerAuth()
+    .addCookieAuth(
+      process.env.SESSION_COOKIE_NAME || 'wildfire_session',
+      {
+        type: 'apiKey',
+        in: 'cookie',
+      },
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
