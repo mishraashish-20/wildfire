@@ -1,0 +1,48 @@
+{
+  "name": "wildfire-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node dist/main.js",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
+    "db:migrate": "tsx database/migrate.ts",
+    "db:seed": "tsx database/seed.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
+    "cookie-parser": "^1.4.7",
+    "helmet": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.1.5",
+    "@nestjs/typeorm": "^11.0.0",
+    "typeorm": "^0.3.28",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "jest": "^30.0.0",
+    "ts-jest": "^29.4.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.7.0"
+  }
+}

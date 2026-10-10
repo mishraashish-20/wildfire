@@ -1,0 +1,5 @@
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { DatabaseModule } from './database.module';
+import { AuthModule } from './auth/auth.module'; import { PostsModule } from './posts/posts.module'; import { CommentsModule } from './comments/comments.module'; import { BookmarksModule } from './bookmarks/bookmarks.module'; import { ReportsModule } from './reports/reports.module'; import { CategoriesModule } from './categories/categories.module'; import { UsersModule } from './users/users.module'; import { ModerationModule } from './moderation/moderation.module'; import { OriginMiddleware } from './common/origin.middleware'; import { AppController } from './app.controller';
+@Module({ imports:[DatabaseModule,AuthModule,PostsModule,CommentsModule,BookmarksModule,ReportsModule,CategoriesModule,UsersModule,ModerationModule], controllers:[AppController] })
+export class AppModule implements NestModule { configure(consumer:MiddlewareConsumer){consumer.apply(OriginMiddleware).forRoutes('*');} }

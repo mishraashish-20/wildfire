@@ -1,0 +1,1 @@
+import { Injectable } from '@nestjs/common'; import { DataSource } from 'typeorm'; @Injectable() export class CategoriesService { constructor(private readonly db:DataSource){} async list(){return this.db.query(`SELECT value,label,description FROM "PostCategory" WHERE "isActive"=TRUE ORDER BY label ASC`);} }
