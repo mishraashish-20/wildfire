@@ -1,5 +1,39 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { DatabaseModule } from './database.module';
-import { AuthModule } from './auth/auth.module'; import { PostsModule } from './posts/posts.module'; import { CommentsModule } from './comments/comments.module'; import { BookmarksModule } from './bookmarks/bookmarks.module'; import { ReportsModule } from './reports/reports.module'; import { CategoriesModule } from './categories/categories.module'; import { UsersModule } from './users/users.module'; import { ModerationModule } from './moderation/moderation.module'; import { OriginMiddleware } from './common/origin.middleware'; import { AppController } from './app.controller';
-@Module({ imports:[DatabaseModule,AuthModule,PostsModule,CommentsModule,BookmarksModule,ReportsModule,CategoriesModule,UsersModule,ModerationModule], controllers:[AppController] })
-export class AppModule implements NestModule { configure(consumer:MiddlewareConsumer){consumer.apply(OriginMiddleware).forRoutes('*');} }
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostsModule } from './posts/posts.module';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { ModerationModule } from './moderation/moderation.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [
+        ConfigModule,
+        PostsModule,
+        BookmarksModule,
+        ModerationModule,
+      ],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const url = config.get<string>('DATABASE_URL');
+
+        if (!url) {
+          throw new Error('DATABASE_URL is missing from .env');
+        }
+
+        return {
+          type: 'postgres' as const,
+          url,
+          autoLoadEntities: true,
+          synchronize: false,
+        };
+      },
+    }),
+  ],
+})
+export class AppModule { }
