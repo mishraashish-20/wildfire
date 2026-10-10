@@ -15,13 +15,13 @@ async function bootstrap() {
         .setDescription('Wildfire civic reporting backend')
         .setVersion('1.0.0')
         .addCookieAuth(process.env.SESSION_COOKIE_NAME || 'wildfire_session', {
-        type: 'apiKey',
-        in: 'cookie',
-    })
+            type: 'apiKey',
+            in: 'cookie',
+        })
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('docs', app, document);
-    const port = Number(process.env.PORT) || 3001;
+    const port = Number(process.env.PORT) || 8080;
     await app.listen(port, '0.0.0.0');
 }
 bootstrap();
