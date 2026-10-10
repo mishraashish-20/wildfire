@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+require("reflect-metadata");
+const typeorm_1 = require("typeorm");
+async function main() { if (!process.env.DATABASE_URL)
+    throw new Error('DATABASE_URL is required'); const ds = new typeorm_1.DataSource({ type: 'postgres', url: process.env.DATABASE_URL, entities: [] }); await ds.initialize(); try {
+    const categories = [['safety', 'Safety', 'Public safety incidents and hazards'], ['infrastructure', 'Infrastructure', 'Roads, utilities and public infrastructure'], ['environment', 'Environment', 'Environmental issues and pollution'], ['community', 'Community', 'Community issues and local updates'], ['other', 'Other', 'Other civic reports']];
+    for (const [value, label, description] of categories)
+        await ds.query('INSERT INTO "PostCategory" (value,label,description,"updatedAt") VALUES ($1,$2,$3,NOW()) ON CONFLICT (value) DO NOTHING', [value, label, description]);
+    console.log('Seed complete. Categories ensured.');
+}
+finally {
+    await ds.destroy();
+} }
+main().catch(e => { console.error(e); process.exit(1); });
+//# sourceMappingURL=seed.js.map
